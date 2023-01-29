@@ -38,8 +38,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     log: true,
     waitConfirmations: network.config.blockConfirmation || 1,
   });
-  //mstToken = await ethers.getContract("MSTToken");
-  //await mstToken.transfer(babyMonster.address, 1000 * (10 ^ 18));
+  mstToken = await ethers.getContract("MSTToken");
+  await mstToken.transfer(babyMonster.address, BigInt(10 ** 18 * 1000));
   if (
     !developmentChains.includes(network.name) &&
     process.env.EXPLORER_API_KEY

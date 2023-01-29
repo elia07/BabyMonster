@@ -43,14 +43,14 @@ describe("babymonster", function () {
     let { deployer } = await getNamedAccounts();
     const [owner, user1] = await ethers.getSigners();
     let user1MSTBalance =
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18);
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18;
 
     //act
     await babyMonster.connect(user1).GetFaucet();
     //assert
     assert.equal(
       user1MSTBalance + 1,
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18)
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18
     );
   });
 
@@ -59,7 +59,7 @@ describe("babymonster", function () {
     let { deployer } = await getNamedAccounts();
     const [owner, user1] = await ethers.getSigners();
     let user1MSTBalance =
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18);
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18;
 
     //act
     await babyMonster.Airdrop([user1.address]);
@@ -68,7 +68,7 @@ describe("babymonster", function () {
     //assert
     assert.equal(
       user1MSTBalance + 50,
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18)
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18
     );
   });
 
@@ -77,7 +77,7 @@ describe("babymonster", function () {
     let { deployer } = await getNamedAccounts();
     const [owner, user1] = await ethers.getSigners();
     let user1MSTBalance =
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18);
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18;
 
     //act
     await babyMonster.Airdrop([user1.address]);
@@ -94,13 +94,13 @@ describe("babymonster", function () {
     await ethers.provider.send("evm_mine");
 
     user1MSTBalance =
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18);
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18;
     await babyMonster.connect(user1).GetFaucet();
 
     //assert
     assert.equal(
       user1MSTBalance + 50,
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18)
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18
     );
   });
 
@@ -109,7 +109,7 @@ describe("babymonster", function () {
     let { deployer } = await getNamedAccounts();
     const [owner, user1] = await ethers.getSigners();
     let user1MSTBalance =
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18);
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18;
 
     //act
     await babyMonster.Airdrop([user1.address]);
@@ -119,7 +119,7 @@ describe("babymonster", function () {
     //assert
     assert.equal(
       user1MSTBalance + 1,
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18)
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18
     );
   });
 
@@ -143,19 +143,19 @@ describe("babymonster", function () {
     let { deployer } = await getNamedAccounts();
     const [owner, user1] = await ethers.getSigners();
     let deployerBalance =
-      parseInt(await mstToken.balanceOf(owner.address)) / (10 ^ 18);
+      parseInt(await mstToken.balanceOf(owner.address)) / 10 ** 18;
     let contractBalance =
-      parseInt(await mstToken.balanceOf(babyMonster.address)) / (10 ^ 18);
+      parseInt(await mstToken.balanceOf(babyMonster.address)) / 10 ** 18;
     //act
     await babyMonster.WithdrawalTokens();
     //assert
     assert.equal(
       0,
-      parseInt(await mstToken.balanceOf(babyMonster.address)) / (10 ^ 18)
+      parseInt(await mstToken.balanceOf(babyMonster.address)) / 10 ** 18
     );
     assert.equal(
       deployerBalance + contractBalance,
-      parseInt(await mstToken.balanceOf(owner.address)) / (10 ^ 18)
+      parseInt(await mstToken.balanceOf(owner.address)) / 10 ** 18
     );
   });
   it("Avoid Double Stack", async function () {
@@ -163,7 +163,7 @@ describe("babymonster", function () {
     let { deployer } = await getNamedAccounts();
     const [owner, user1] = await ethers.getSigners();
     let user1MSTBalance =
-      parseInt(await mstToken.balanceOf(user1.address)) / (10 ^ 18);
+      parseInt(await mstToken.balanceOf(user1.address)) / 10 ** 18;
 
     //act
     await babyMonster.Airdrop([user1.address, user1.address]);
