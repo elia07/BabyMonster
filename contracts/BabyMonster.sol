@@ -56,7 +56,10 @@ contract BabyMonster is ERC1155Pausable, Ownable {
         if (_stacking[msg.sender] != 0) {
             faucetAmount = _faucetAmount[1];
         }
-        IERC20(_MSTTokenAddress).transfer(msg.sender, faucetAmount * (10 ^ 18));
+        IERC20(_MSTTokenAddress).transfer(
+            msg.sender,
+            faucetAmount * (10 ** 18)
+        );
     }
 
     function Stack() public {
