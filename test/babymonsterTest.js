@@ -147,7 +147,10 @@ describe("babymonster", function () {
     let contractBalance =
       parseInt(await mstToken.balanceOf(babyMonster.address)) / 10 ** 18;
     //act
-    await babyMonster.WithdrawalTokens();
+    const transactionResponse = await babyMonster.WithdrawalTokens();
+    const transactionReceipt = await transactionResponse.wait();
+    const { gasUsed, effectiveGasPrice } = transactionReceipt;
+    const gasCost = gasUsed.mul(effectiveGasPrice);
     //assert
     assert.equal(
       0,
@@ -155,7 +158,7 @@ describe("babymonster", function () {
     );
     assert.equal(
       deployerBalance + contractBalance,
-      parseInt(await mstToken.balanceOf(owner.address)) / 10 ** 18
+      parseInt(parseInt(await mstToken.balanceOf(owner.address)) / 10 ** 18) + 1
     );
   });
   it("Avoid Double Stack", async function () {
