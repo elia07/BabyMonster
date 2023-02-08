@@ -37,7 +37,7 @@ module.exports = {
       url: POLYGON_RPC_URL,
       accounts: [PRIVATE_KEY],
       chainId: 137,
-      blockConfirmation: 2,
+      blockConfirmation: 5,
       mstTokenAddress: "0x41C1660267ABE974Cb889bFD41829d4E1313d675",
     },
     rinkeby: {

@@ -31,15 +31,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   } else {
     MSTTokenAddress = network.config["mstTokenAddress"];
   }
-  const babyMonsterArgs = ["", MSTTokenAddress];
+  const babyMonsterArgs = ["", MSTTokenAddress, 4000000];
   const babyMonster = await deploy("BabyMonster", {
     from: deployer,
     args: babyMonsterArgs,
     log: true,
-    waitConfirmations: network.config.blockConfirmation || 1,
+    waitConfirmations: network.config.blockConfirmation || 5,
   });
-  mstToken = await ethers.getContract("MSTToken");
-  await mstToken.transfer(babyMonster.address, BigInt(10 ** 18 * 1000));
+  //mstToken = await ethers.getContract("MSTToken");
+  //await mstToken.transfer(babyMonster.address, BigInt(10 ** 18 * 1000));
   if (
     !developmentChains.includes(network.name) &&
     process.env.EXPLORER_API_KEY

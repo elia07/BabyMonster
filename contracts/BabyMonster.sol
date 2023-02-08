@@ -12,6 +12,7 @@ contract BabyMonster is ERC1155Pausable, Ownable {
     mapping(address => uint256) public _NextAvailableFaucet;
     uint256 public _totalStacked;
     address public _MSTTokenAddress;
+    uint256 public _MintFeeInMST;
 
     error TimeLock();
     error AlreadyStacked();
@@ -19,11 +20,13 @@ contract BabyMonster is ERC1155Pausable, Ownable {
 
     constructor(
         string memory baseURI,
-        address mstTokenAddress
+        address mstTokenAddress,
+        uint256 mintFee
     ) ERC1155(baseURI) {
         _faucetAmount.push(1);
         _faucetAmount.push(50);
         _MSTTokenAddress = mstTokenAddress;
+        _MintFeeInMST = mintFee;
     }
 
     function updateFaucetAmount(
@@ -32,6 +35,15 @@ contract BabyMonster is ERC1155Pausable, Ownable {
     ) public onlyOwner {
         _faucetAmount[0] = withoutStacking;
         _faucetAmount[1] = withStacking;
+    }
+
+    function Mint() public {
+        IERC20(_MSTTokenAddress).transferFrom(
+            msg.sender,
+            address(this),
+            _MintFeeInMST * (10 ** 18)
+        );
+        _mint(msg.sender, 1, 1, "");
     }
 
     function Airdrop(address[] memory targetAirdropAddresses) public onlyOwner {
@@ -63,6 +75,7 @@ contract BabyMonster is ERC1155Pausable, Ownable {
     }
 
     function Stack() public {
+        require(GetAvailableTokenCount() > 0, "You don`t have BabyMonster");
         if (_stacking[msg.sender] != 0) {
             revert AlreadyStacked();
         }
@@ -113,5 +126,17 @@ contract BabyMonster is ERC1155Pausable, Ownable {
 
     function GetAvailableTokenCount() public view returns (uint256) {
         return balanceOf(msg.sender, 1) - _stacking[msg.sender];
+    }
+
+    function UpdateMintFee(uint256 mintFee) public onlyOwner {
+        _MintFeeInMST = mintFee;
+    }
+
+    function PauseUnpause() public onlyOwner {
+        if (paused()) {
+            _unpause();
+        } else {
+            _pause();
+        }
     }
 }
